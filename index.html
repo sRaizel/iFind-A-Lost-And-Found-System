@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Lost & Found</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-search"></i> School Lost & Found</h1>
+      <p>Helping reunite lost items with their owners</p>
+    </div>
+  </header>
+
+  <nav>
+    <div class="container">
+      <ul>
+        <li><a href="#" class="active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#" data-section="report"><i class="fas fa-plus-circle"></i> Report</a></li>
+        <li><a href="#" data-section="browse"><i class="fas fa-list"></i> Browse</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Home Section -->
+    <section id="home" class="active-section">
+      <div class="hero">
+        <h2>Lost Something?</h2>
+        <p>Search our database of found items</p>
+        <div class="search-box">
+          <input type="text" placeholder="Search items...">
+          <button><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <h3>24</h3>
+          <p>Items found this week</p>
+        </div>
+        <div class="stat-card">
+          <h3>18</h3>
+          <p>Items returned</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Report Section -->
+    <section id="report">
+      <h2><i class="fas fa-plus-circle"></i> Report Lost Item</h2>
+      <form id="report-form">
+        <div class="form-group">
+          <label for="item-name">Item Name</label>
+          <input type="text" id="item-name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="item-category">Category</label>
+          <select id="item-category" required>
+            <option value="">Select category</option>
+            <option value="clothing">Clothing</option>
+            <option value="electronics">Electronics</option>
+            <option value="books">Books/Notebooks</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location Lost</label>
+          <input type="text" id="location" required>
+        </div>
+
+        <div class="form-group">
+          <label for="date">Date Lost</label>
+          <input type="date" id="date" required>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="image">Upload Image (Optional)</label>
+          <input type="file" id="image" accept="image/*">
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Report</button>
+      </form>
+    </section>
+
+    <!-- Browse Section -->
+    <section id="browse">
+      <h2><i class="fas fa-list"></i> Found Items</h2>
+      <div class="filter-options">
+        <select id="filter-category">
+          <option value="all">All Categories</option>
+          <option value="clothing">Clothing</option>
+          <option value="electronics">Electronics</option>
+          <option value="books">Books</option>
+        </select>
+        <select id="filter-location">
+          <option value="all">All Locations</option>
+          <option value="cafeteria">Cafeteria</option>
+          <option value="library">Library</option>
+          <option value="gym">Gym</option>
+        </select>
+      </div>
+
+      <div class="items-grid">
+        <!-- Sample items will appear here -->
+        <div class="item-card">
+          <div class="item-image">
+            <img src="https://via.placeholder.com/200x150?text=Water+Bottle" alt="Water Bottle">
+          </div>
+          <div class="item-details">
+            <h3>Blue Water Bottle</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Cafeteria</p>
+            <p><i class="fas fa-calendar-alt"></i> June 15, 2023</p>
+            <button class="claim-btn">Claim Item</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 School Lost & Found System</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple navigation between sections
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = link.getAttribute('data-section');
+
+        // Update active nav link
+        document.querySelectorAll('nav a').forEach(navLink => {
+          navLink.classList.remove('active');
+        });
+        link.classList.add('active');
+
+        // Show selected section
+        document.querySelectorAll('main section').forEach(sec => {
+          sec.classList.remove('active-section');
+        });
+        document.getElementById(section).classList.add('active-section');
+      });
+    });
+
+    // Form submission handler
+    document.getElementById('report-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you! Your lost item report has been submitted.');
+      document.getElementById('report-form').reset();
+    });
+  </script>
+</body>
+</html>
