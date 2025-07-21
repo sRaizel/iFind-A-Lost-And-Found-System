@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>School Lost & Found</title>
+  <title>CSJ iFind</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header>
     <div class="container">
-      <h1><i class="fas fa-search"></i> School Lost & Found</h1>
-      <p>Helping reunite lost items with their owners</p>
+      <h1><i class="fas fa-search"></i> iFind : Lost & Found</h1>
+      <p>Colegio De San Jose</p>
     </div>
   </header>
 
@@ -30,20 +30,20 @@
     <section id="home" class="active-section">
       <div class="hero">
         <h2>Lost Something?</h2>
-        <p>Search our database of found items</p>
         <div class="search-box">
-          <input type="text" placeholder="Search items...">
-          <button><i class="fas fa-search"></i></button>
+          <input type="text" id="search-input" placeholder="Search items...">
+          <button id="search-button"><i class="fas fa-search"></i></button>
         </div>
+        <div id="search-results"></div>
       </div>
 
       <div class="stats">
         <div class="stat-card">
-          <h3>24</h3>
-          <p>Items found this week</p>
+          <h3 id="items-found-count">1</h3>
+          <p>Items found</p>
         </div>
         <div class="stat-card">
-          <h3>18</h3>
+          <h3 id="items-returned-count">0</h3>
           <p>Items returned</p>
         </div>
       </div>
@@ -54,39 +54,41 @@
       <h2><i class="fas fa-plus-circle"></i> Report Lost Item</h2>
       <form id="report-form">
         <div class="form-group">
-          <label for="item-name">Item Name</label>
+          <label for="item-name">Item Name*</label>
           <input type="text" id="item-name" required>
         </div>
 
         <div class="form-group">
-          <label for="item-category">Category</label>
+          <label for="item-category">Category*</label>
           <select id="item-category" required>
             <option value="">Select category</option>
-            <option value="clothing">Clothing</option>
+            <option value="water-bottle">Water Bottle</option>
             <option value="electronics">Electronics</option>
-            <option value="books">Books/Notebooks</option>
-            <option value="other">Other</option>
+            <option value="books">Books</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="location">Location Lost</label>
+          <label for="location">Location Lost*</label>
           <input type="text" id="location" required>
         </div>
 
         <div class="form-group">
-          <label for="date">Date Lost</label>
+          <label for="date">Date Lost*</label>
           <input type="date" id="date" required>
         </div>
 
         <div class="form-group">
-          <label for="description">Description</label>
-          <textarea id="description" rows="3"></textarea>
+          <label for="description">Description*</label>
+          <textarea id="description" rows="3" required></textarea>
         </div>
 
         <div class="form-group">
-          <label for="image">Upload Image (Optional)</label>
+          <label for="image">Upload Image</label>
           <input type="file" id="image" accept="image/*">
+          <div class="image-preview">
+            <img id="display-image" src="bottle.png" alt="Item Preview">
+          </div>
         </div>
 
         <button type="submit" class="submit-btn">Submit Report</button>
@@ -99,28 +101,27 @@
       <div class="filter-options">
         <select id="filter-category">
           <option value="all">All Categories</option>
-          <option value="clothing">Clothing</option>
+          <option value="water-bottle">Water Bottle</option>
           <option value="electronics">Electronics</option>
-          <option value="books">Books</option>
         </select>
         <select id="filter-location">
           <option value="all">All Locations</option>
-          <option value="cafeteria">Cafeteria</option>
-          <option value="library">Library</option>
-          <option value="gym">Gym</option>
+          <option value="Classroom">Classroom</option>
+          <option value="Library">Library</option>
         </select>
       </div>
 
       <div class="items-grid">
-        <!-- Sample items will appear here -->
-        <div class="item-card">
+        <!-- Default Item -->
+        <div class="item-card" data-id="1" data-category="water-bottle" data-location="Classroom">
           <div class="item-image">
-            <img src="https://via.placeholder.com/200x150?text=Water+Bottle" alt="Water Bottle">
+            <img src="bottle.png" alt="Pink Water Bottle">
           </div>
           <div class="item-details">
-            <h3>Blue Water Bottle</h3>
-            <p><i class="fas fa-map-marker-alt"></i> Cafeteria</p>
-            <p><i class="fas fa-calendar-alt"></i> June 15, 2023</p>
+            <h3>Pink Water Bottle</h3>
+            <p class="description">Pink Water Bottle</p>
+            <p><i class="fas fa-map-marker-alt"></i> Classroom</p>
+            <p><i class="fas fa-calendar-alt"></i> <span class="date">July 20, 2025</span></p>
             <button class="claim-btn">Claim Item</button>
           </div>
         </div>
@@ -128,39 +129,34 @@
     </section>
   </main>
 
+  <!-- Claim Popup -->
+  <div id="notification-popup" class="popup">
+    <div class="popup-content">
+      <span class="close-btn">&times;</span>
+      <h3><i class="fas fa-envelope"></i> Claim This Item</h3>
+      <form id="claim-form">
+        <div class="form-group">
+          <label for="student-email">Your Email*</label>
+          <input type="email" id="student-email" required placeholder="your@email.com">
+        </div>
+
+        <div class="form-group">
+          <label for="claim-message">Proof of Ownership*</label>
+          <textarea id="claim-message" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Claim</button>
+      </form>
+      <div id="form-status"></div>
+    </div>
+  </div>
+
   <footer>
     <div class="container">
-      <p>&copy; 2023 School Lost & Found System</p>
+      <p>&copy; 2025 CSJ Lost & Found</p>
     </div>
   </footer>
 
-  <script>
-    // Simple navigation between sections
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const section = link.getAttribute('data-section');
-
-        // Update active nav link
-        document.querySelectorAll('nav a').forEach(navLink => {
-          navLink.classList.remove('active');
-        });
-        link.classList.add('active');
-
-        // Show selected section
-        document.querySelectorAll('main section').forEach(sec => {
-          sec.classList.remove('active-section');
-        });
-        document.getElementById(section).classList.add('active-section');
-      });
-    });
-
-    // Form submission handler
-    document.getElementById('report-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Thank you! Your lost item report has been submitted.');
-      document.getElementById('report-form').reset();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
